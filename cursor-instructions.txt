@@ -1,0 +1,215 @@
+1. Update frontend to remove API key input and fetch from env
+2. In 'src/App.tsx' or wherever the API call is made, replace user-input OpenAI key with a secure call to your server
+3. In Netlify backend, store your key in a serverless function's .env file
+
+Example Cursor fix:
+--- FRONTEND (App.tsx) ---
+// Remove the OpenAI key input UI block entirely
+
+--- BACKEND (functions/process-youtube.ts or wherever API is called) ---
+// Use process.env.OPENAI_API_KEY
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+--- .env ---
+OPENAI_API_KEY=sk-...
+
+--- netlify.toml ---
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["openai"]
+
+[build.environment]
+  OPENAI_API_KEY = "sk-..."
+
+Then re-deploy using: This folder isn't linked to a site yet
+? What would you like to do? (Use arrow keys)
+❯ Link this directory to an existing site 
+  +  Create & configure a new site [35D[35C[2K[1A[2K[1A[2K[G? What would you like to do? Link this directory to an existing site[68D[68C
+
+netlify link will connect this folder to a site on Netlify
+
+? How do you want to link this folder to a site? (Use arrow keys)
+❯ Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[18C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+❯ Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[18C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+❯ Enter a site ID [18D[43C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+❯ Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[73C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+❯ Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[153C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+❯ Choose from a list of your recently updated sites 
+  Enter a site ID [18D[192C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+❯ Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[209C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+❯ Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[226C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+❯ Enter a site ID [18D[340C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+❯ Choose from a list of your recently updated sites 
+  Enter a site ID [18D[357C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+❯ Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[378C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+❯ Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[475C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+❯ Enter a site ID [18D[511C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+❯ Choose from a list of your recently updated sites 
+  Enter a site ID [18D[539C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+❯ Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[575C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+❯ Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+  Enter a site ID [18D[580C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+  Choose from a list of your recently updated sites 
+❯ Enter a site ID [18D[730C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? 
+  Use current git remote origin 
+(https://github.com/thomaswilliams63/hookfinder3-backend) 
+  Search by full or partial site name 
+❯ Choose from a list of your recently updated sites 
+  Enter a site ID [18D[739C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? How do you want to link this folder to a site? Choose from a list of your 
+recently updated sites[1A[22D[98C
+[1BFetching recently updated sites...
+
+? Which site do you want to link? (Use arrow keys)
+❯ hookfinder3-backend 
+  hookfinder3 
+  transcendent-shortbread-de4880 
+  radiant-cascaron-f2f54d 
+  contentfactory 
+  tube-downloader 
+  heroic-kheer-b38f38 [22D[22C[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[G? Which site do you want to link? hookfinder3-backend[53D[53C
+
+Directory Linked
+
+Admin url: https://app.netlify.com/sites/hookfinder3-backend
+Site url:  https://hookfinder3-backend.netlify.app
+
+You can now run other `netlify` cli commands in this directory
+​
+Netlify Build                                                 
+────────────────────────────────────────────────────────────────
+​
+❯ Version
+  @netlify/build 32.1.0
+​
+❯ Flags
+  {}
+​
+❯ Current directory
+  /Users/tom/Desktop/hookfinder3
+​
+❯ Config file
+  /Users/tom/Desktop/hookfinder3/netlify.toml
+​
+❯ Context
+  production
+​
+build.command from netlify.toml                               
+────────────────────────────────────────────────────────────────
+​
+$ npm run build
+
+> vite-react-typescript-starter@0.0.0 build
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 1480 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.47 kB │ gzip:  0.31 kB
+dist/assets/index-BwYqz9ac.css   15.72 kB │ gzip:  3.62 kB
+dist/assets/index-DkLUqJ7S.js   168.53 kB │ gzip: 52.74 kB
+✓ built in 690ms
+​
+(build.command completed in 1.1s)
+​
+Functions bundling                                            
+────────────────────────────────────────────────────────────────
+​
+No Functions were found in netlify/functions directory
+​
+(Functions bundling completed in 1ms)
+
+Deploying to Netlify
+────────────────────────────────────────────────────────────────
+
+[32mDeploy path: [39m       /Users/tom/Desktop/hookfinder3/dist
+[32mFunctions path: [39m    /Users/tom/Desktop/hookfinder3/netlify/functions
+[32mConfiguration path: [39m/Users/tom/Desktop/hookfinder3/netlify.toml
+
+​
+Netlify Build Complete                                        
+────────────────────────────────────────────────────────────────
+​
+(Netlify Build completed in 10.9s)
+
+🚀 Deploy complete
+────────────────────────────────────────────────────────────────
+
+   ╭─────────────────────────────── ⬥  Production deploy is live ⬥  ───────────────────────────────╮
+   │                                                                                               │
+   │              Deployed to production URL: https://hookfinder3-backend.netlify.app              │
+   │                          (​https://hookfinder3-backend.netlify.app​)                            │
+   │                                                                                               │
+   │     Unique deploy URL: https://681cc86dd61436270068bc24--hookfinder3-backend.netlify.app      │
+   │            (​https://681cc86dd61436270068bc24--hookfinder3-backend.netlify.app​)                │
+   │                                                                                               │
+   ╰───────────────────────────────────────────────────────────────────────────────────────────────╯
+
+[32mBuild logs: [39m        https://app.netlify.com/sites/hookfinder3-backend/deploys/681cc86dd61436270068bc24 (​https://app.netlify.com/sites/hookfinder3-backend/deploys/681cc86dd61436270068bc24​)
+[32mFunction logs: [39m     https://app.netlify.com/sites/hookfinder3-backend/logs/functions (​https://app.netlify.com/sites/hookfinder3-backend/logs/functions​)
+[32mEdge function Logs: [39mhttps://app.netlify.com/sites/hookfinder3-backend/logs/edge-functions (​https://app.netlify.com/sites/hookfinder3-backend/logs/edge-functions​)
+
