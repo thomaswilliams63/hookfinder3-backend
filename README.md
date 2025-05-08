@@ -1,46 +1,71 @@
-# hookfinder3
+# HookFinder
 
-## Project Overview
-This project processes video files and YouTube videos to extract transcripts and analyze hooks using OpenAI.
+A tool for finding engaging hooks in videos using AI.
+
+## Project Structure
+
+- `frontend/` - React frontend application
+- `backend/` - Netlify serverless functions for video processing
 
 ## Setup
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-username/hookfinder3.git
-   cd hookfinder3
-   ```
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
-3. Create a `.env` file in the root directory with your OpenAI API key:
-   ```
-   VITE_OPENAI_API_KEY=your_openai_api_key
-   ```
-4. Run the development server:
-   ```sh
-   npm run dev
-   ```
 
-## Deployment
-### GitHub
-- Push your code to GitHub:
-  ```sh
-  git add .
-  git commit -m "Initial commit"
-  git remote add origin https://github.com/your-username/hookfinder3.git
-  git push -u origin main
-  ```
+### Frontend
 
-### Netlify
-- Connect your GitHub repository to Netlify.
-- Set build command: `npm run build`
-- Set publish directory: `dist`
-- Add environment variable `VITE_OPENAI_API_KEY` in Netlify dashboard.
-- Deploy!
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Development:
+```bash
+npm run dev
+```
+
+3. Build:
+```bash
+npm run build
+```
+
+### Backend
+
+See the [backend README](./backend/README.md) for setup instructions.
 
 ## Features
-- Video upload (local file)
-- YouTube video processing (via Netlify backend)
-- OpenAI-powered transcript analysis
-- Hook detection and display
+
+- YouTube video processing
+- Local video file upload
+- AI-powered transcription
+- Hook detection and analysis
+- Modern, responsive UI
+
+## Environment Variables
+
+### Frontend
+- `VITE_API_URL` - Backend API URL (defaults to Netlify functions)
+
+### Backend
+- `OPENAI_API_KEY` - OpenAI API key for transcription
+
+## Development
+
+1. Start the frontend development server:
+```bash
+npm run dev
+```
+
+2. Start the backend development server:
+```bash
+cd backend
+npm run dev
+```
+
+## Deployment
+
+The application is deployed on Netlify:
+
+1. Frontend: [hookfinder.netlify.app](https://hookfinder.netlify.app)
+2. Backend: [hookfinder-api.netlify.app](https://hookfinder-api.netlify.app)
+
+## License
+
+MIT

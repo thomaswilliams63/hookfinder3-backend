@@ -1,34 +1,46 @@
 import { useState } from 'react';
-import { Transcript, VideoInfo } from '../types';
-import { transcribeAudio } from '../services/openai';
-
-interface TranscriptionState {
-  isProcessing: boolean;
-  progress: number;
-  transcript: Transcript[];
-  error: string | null;
-}
-
-interface TranscriptionResult {
-  transcript: Transcript[];
-}
+import { Transcript } from '../types';
 
 export const useTranscription = () => {
   const [transcript, setTranscript] = useState<Transcript[]>([]);
-  const [progress, setProgress] = useState<number>(0);
+  const [progress, setProgress] = useState(0);
 
-  const startTranscription = async (file: File): Promise<{ transcript: Transcript[] }> => {
-    // Call backend to transcribe
-    const response = await fetch('/.netlify/functions/transcribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ file })
-    });
-    if (!response.ok) throw new Error('Failed to transcribe');
-    const data = await response.json();
-    setTranscript(data.transcript);
-    return { transcript: data.transcript };
+  const startTranscription = async (file: File, apiKey: string) => {
+    try {
+      setProgress(0);
+      setTranscript([]);
+
+      // Create form data
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Call Netlify function
+      const response = await fetch('/.netlify/functions/transcribe', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to transcribe audio');
+      }
+
+      const data = await response.json();
+      setTranscript(data.transcript);
+      setProgress(100);
+
+      return { transcript: data.transcript };
+    } catch (error) {
+      console.error('Transcription error:', error);
+      throw error;
+    }
   };
 
-  return { transcript, progress, startTranscription };
+  return {
+    transcript,
+    progress,
+    startTranscription
+  };
 };

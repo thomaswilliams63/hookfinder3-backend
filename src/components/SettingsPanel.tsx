@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyIcon, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import { ProcessingOptions } from '../types';
 
 interface SettingsPanelProps {
@@ -9,7 +9,6 @@ interface SettingsPanelProps {
 
 export const SettingsPanel: React.FC<SettingsPanelProps> = ({ options, onOptionsChange }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showApiKey, setShowApiKey] = useState(false);
 
   const handleNumHooksChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
@@ -53,33 +52,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ options, onOptions
       {isExpanded && (
         <div className="p-4 border-t border-slate-200 dark:border-slate-700">
           <div className="space-y-6">
-            {/* API Key Input */}
-            <div>
-              <label className="block text-sm font-medium mb-2 flex items-center">
-                <KeyIcon className="h-4 w-4 mr-2 text-slate-500" />
-                OpenAI API Key
-              </label>
-              <div className="relative">
-                <input
-                  type={showApiKey ? "text" : "password"}
-                  className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-white dark:bg-slate-800"
-                  placeholder="sk-..."
-                  value={showApiKey ? "sk-..." : ""}
-                  onChange={(e) => {}}
-                />
-                <button
-                  type="button"
-                  className="absolute right-2 top-2 text-xs text-slate-500 hover:text-slate-700"
-                  onClick={() => setShowApiKey(!showApiKey)}
-                >
-                  {showApiKey ? 'Hide' : 'Show'}
-                </button>
-              </div>
-              <p className="text-xs mt-1 text-slate-500">
-                Your API key is stored locally and never sent to our servers
-              </p>
-            </div>
-            
             {/* Number of Hooks */}
             <div>
               <label className="block text-sm font-medium mb-2">

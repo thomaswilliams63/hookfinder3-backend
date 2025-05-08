@@ -50,13 +50,32 @@ export async function downloadAudioFromYouTube(
   }
 }
 
-export const processYoutubeVideo = async (url: string): Promise<VideoInfo> => {
-  // Call Netlify backend to process YouTube video
-  const response = await fetch('/.netlify/functions/process-youtube', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ url })
-  });
-  if (!response.ok) throw new Error('Failed to process YouTube video');
-  return response.json();
+export const processYoutubeVideo = async (url: string, apiKey: string): Promise<VideoInfo> => {
+  try {
+    // Validate URL first
+    if (!await isValidYouTubeUrl(url)) {
+      throw new Error('Invalid YouTube URL');
+    }
+
+    // Call Netlify backend to process YouTube video
+    const response = await fetch('/.netlify/functions/process-youtube', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({ url })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to process YouTube video');
+    }
+
+    const videoInfo = await response.json();
+    return videoInfo;
+  } catch (error) {
+    console.error('YouTube processing error:', error);
+    throw error;
+  }
 };
