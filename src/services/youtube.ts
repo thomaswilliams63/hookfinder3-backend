@@ -49,3 +49,14 @@ export async function downloadAudioFromYouTube(
     throw error;
   }
 }
+
+export const processYoutubeVideo = async (url: string): Promise<VideoInfo> => {
+  // Call Netlify backend to process YouTube video
+  const response = await fetch('/.netlify/functions/process-youtube', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url })
+  });
+  if (!response.ok) throw new Error('Failed to process YouTube video');
+  return response.json();
+};

@@ -10,14 +10,13 @@ import { useTranscription } from './hooks/useTranscription';
 import { useAnalysis } from './hooks/useAnalysis';
 import { Hook, ProcessingOptions, Transcript, VideoInfo } from './types';
 import { AlertTriangleIcon } from 'lucide-react';
+import { processYoutubeVideo } from './services/youtube';
 
 function App() {
   // Local storage keys
-  const OPENAI_API_KEY_STORAGE_KEY = 'hook-finder-openai-api-key';
   const PROCESSING_OPTIONS_STORAGE_KEY = 'hook-finder-processing-options';
 
   // State
-  const [apiKey, setApiKey] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [youtubeUrl, setYoutubeUrl] = useState<string | null>(null);
   const [videoInfo, setVideoInfo] = useState<VideoInfo | null>(null);
@@ -31,18 +30,13 @@ function App() {
   });
 
   // Hooks
-  const transcription = useTranscription(apiKey);
-  const analysis = useAnalysis(apiKey, 'gpt-4');
+  const transcription = useTranscription();
+  const analysis = useAnalysis('gpt-4');
 
   // Effects
 
-  // Load API key from local storage
+  // Load options from local storage
   useEffect(() => {
-    const savedApiKey = localStorage.getItem(OPENAI_API_KEY_STORAGE_KEY);
-    if (savedApiKey) {
-      setApiKey(savedApiKey);
-    }
-    
     const savedOptions = localStorage.getItem(PROCESSING_OPTIONS_STORAGE_KEY);
     if (savedOptions) {
       try {
@@ -52,13 +46,6 @@ function App() {
       }
     }
   }, []);
-
-  // Save API key to local storage when it changes
-  useEffect(() => {
-    if (apiKey) {
-      localStorage.setItem(OPENAI_API_KEY_STORAGE_KEY, apiKey);
-    }
-  }, [apiKey]);
 
   // Save options to local storage when they change
   useEffect(() => {
@@ -78,20 +65,11 @@ function App() {
     setError(null);
   };
 
-  const handleApiKeyChange = (key: string) => {
-    setApiKey(key);
-  };
-
   const handleOptionsChange = (newOptions: ProcessingOptions) => {
     setOptions(newOptions);
   };
 
   const startProcessing = async () => {
-    if (!apiKey) {
-      setError('Please enter your OpenAI API key in the settings');
-      return;
-    }
-
     if (!selectedFile && !youtubeUrl) {
       setError('Please select a video file or enter a YouTube URL');
       return;
@@ -103,20 +81,21 @@ function App() {
       // Step 2: Transcription
       setCurrentStep(2);
       
-      // For the MVP, we'll process the local file directly
-      // In a full implementation, we'd need a server to handle YouTube URLs
       if (selectedFile) {
         const { transcript } = await transcription.startTranscription(selectedFile);
-        
         // Step 3: Analysis
         setCurrentStep(3);
         const hooks = await analysis.startAnalysis(transcript, options.numHooks);
-        
         // Step 4: Results
         setCurrentStep(4);
-      } else {
-        // This is a placeholder - we'd need a server component to download from YouTube
-        setError('YouTube processing requires a server component which is not implemented in this demo. Please upload a local video file instead.');
+      } else if (youtubeUrl) {
+        const videoInfo = await processYoutubeVideo(youtubeUrl);
+        setVideoInfo(videoInfo);
+        // Step 3: Analysis
+        setCurrentStep(3);
+        const hooks = await analysis.startAnalysis(videoInfo.transcript, options.numHooks);
+        // Step 4: Results
+        setCurrentStep(4);
       }
     } catch (error) {
       console.error('Processing error:', error);
@@ -148,8 +127,6 @@ function App() {
               <VideoUploader onVideoSelected={handleVideoSelected} />
               
               <SettingsPanel 
-                apiKey={apiKey}
-                onApiKeyChange={handleApiKeyChange}
                 options={options}
                 onOptionsChange={handleOptionsChange}
               />

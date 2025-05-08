@@ -19,6 +19,7 @@ export interface VideoInfo {
   title: string;
   duration: number;
   thumbnailUrl?: string;
+  transcript: string;
 }
 
 export interface OpenAIConfig {

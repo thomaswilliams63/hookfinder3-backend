@@ -3,18 +3,11 @@ import { KeyIcon, SlidersHorizontal } from 'lucide-react';
 import { ProcessingOptions } from '../types';
 
 interface SettingsPanelProps {
-  apiKey: string;
-  onApiKeyChange: (key: string) => void;
   options: ProcessingOptions;
   onOptionsChange: (options: ProcessingOptions) => void;
 }
 
-export function SettingsPanel({ 
-  apiKey, 
-  onApiKeyChange,
-  options,
-  onOptionsChange
-}: SettingsPanelProps) {
+export const SettingsPanel: React.FC<SettingsPanelProps> = ({ options, onOptionsChange }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
 
@@ -71,8 +64,8 @@ export function SettingsPanel({
                   type={showApiKey ? "text" : "password"}
                   className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded focus:ring-2 focus:ring-violet-500 focus:border-violet-500 bg-white dark:bg-slate-800"
                   placeholder="sk-..."
-                  value={apiKey}
-                  onChange={(e) => onApiKeyChange(e.target.value)}
+                  value={showApiKey ? "sk-..." : ""}
+                  onChange={(e) => {}}
                 />
                 <button
                   type="button"
@@ -147,4 +140,4 @@ export function SettingsPanel({
       )}
     </div>
   );
-}
+};
