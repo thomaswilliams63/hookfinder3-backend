@@ -5,17 +5,16 @@ export const useAnalysis = (model: string) => {
   const [hooks, setHooks] = useState<Hook[]>([]);
   const [progress, setProgress] = useState(0);
 
-  const startAnalysis = async (transcript: Transcript[], numHooks: number, apiKey: string) => {
+  const startAnalysis = async (transcript: Transcript[], numHooks: number) => {
     try {
       setProgress(0);
       setHooks([]);
 
-      // Call Netlify function
-      const response = await fetch('/.netlify/functions/analyze', {
+      // Call backend site for analysis
+      const response = await fetch('https://hookfinder3-backend.netlify.app/.netlify/functions/analyze', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           transcript,

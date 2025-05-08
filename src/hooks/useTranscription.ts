@@ -5,7 +5,7 @@ export const useTranscription = () => {
   const [transcript, setTranscript] = useState<Transcript[]>([]);
   const [progress, setProgress] = useState(0);
 
-  const startTranscription = async (file: File, apiKey: string) => {
+  const startTranscription = async (file: File) => {
     try {
       setProgress(0);
       setTranscript([]);
@@ -14,12 +14,9 @@ export const useTranscription = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      // Call Netlify function
-      const response = await fetch('/.netlify/functions/transcribe', {
+      // Call backend site for transcription
+      const response = await fetch('https://hookfinder3-backend.netlify.app/.netlify/functions/transcribe', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`
-        },
         body: formData
       });
 

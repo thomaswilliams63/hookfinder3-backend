@@ -21,7 +21,8 @@ export async function fetchVideoInfo(videoId: string): Promise<VideoInfo> {
   return {
     title: `YouTube Video (${videoId})`,
     duration: 600, // 10 minutes in seconds
-    thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+    thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+    transcript: []
   };
 }
 
@@ -50,19 +51,18 @@ export async function downloadAudioFromYouTube(
   }
 }
 
-export const processYoutubeVideo = async (url: string, apiKey: string): Promise<VideoInfo> => {
+export const processYoutubeVideo = async (url: string): Promise<VideoInfo> => {
   try {
     // Validate URL first
     if (!await isValidYouTubeUrl(url)) {
       throw new Error('Invalid YouTube URL');
     }
 
-    // Call Netlify backend to process YouTube video
-    const response = await fetch('/.netlify/functions/process-youtube', {
+    // Call backend site to process YouTube video
+    const response = await fetch('https://hookfinder3-backend.netlify.app/.netlify/functions/process-youtube', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ url })
     });

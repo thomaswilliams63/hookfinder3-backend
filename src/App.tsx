@@ -12,13 +12,6 @@ import { Hook, ProcessingOptions, Transcript, VideoInfo } from './types';
 import { AlertTriangleIcon } from 'lucide-react';
 import { processYoutubeVideo } from './services/youtube';
 
-// Get API key from environment variable
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
-
-if (!OPENAI_API_KEY) {
-  console.error('OpenAI API key is not set. Please add VITE_OPENAI_API_KEY to your .env file');
-}
-
 function App() {
   // Local storage keys
   const PROCESSING_OPTIONS_STORAGE_KEY = 'hook-finder-processing-options';
@@ -89,18 +82,18 @@ function App() {
       setCurrentStep(2);
       
       if (selectedFile) {
-        const { transcript } = await transcription.startTranscription(selectedFile, OPENAI_API_KEY);
+        const { transcript } = await transcription.startTranscription(selectedFile);
         // Step 3: Analysis
         setCurrentStep(3);
-        const hooks = await analysis.startAnalysis(transcript, options.numHooks, OPENAI_API_KEY);
+        const hooks = await analysis.startAnalysis(transcript, options.numHooks);
         // Step 4: Results
         setCurrentStep(4);
       } else if (youtubeUrl) {
-        const videoInfo = await processYoutubeVideo(youtubeUrl, OPENAI_API_KEY);
+        const videoInfo = await processYoutubeVideo(youtubeUrl);
         setVideoInfo(videoInfo);
         // Step 3: Analysis
         setCurrentStep(3);
-        const hooks = await analysis.startAnalysis(videoInfo.transcript, options.numHooks, OPENAI_API_KEY);
+        const hooks = await analysis.startAnalysis(videoInfo.transcript, options.numHooks);
         // Step 4: Results
         setCurrentStep(4);
       }
