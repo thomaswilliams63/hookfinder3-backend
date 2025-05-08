@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["openai", "formdata-node"]
+
+[build.environment]
+  NODE_VERSION = "18" 
